@@ -37,11 +37,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Tweet tweet = mTweets.get(position);
-        holder.tvUsername.setText(tweet.user.name);
-        holder.tvBody.setText(tweet.body);
-        holder.tvCreatedAt.setText(tweet.createdAt);
+        holder.tvUsername.setText(tweet.getUser().name);
+        holder.tvBody.setText(tweet.getBody());
+        holder.tvCreatedAt.setText(tweet.getCreatedAt());
 
-        Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
+        Glide.with(context).load(tweet.getUser().profileImageUrl).into(holder.ivProfileImage);
     }
 
     @Override
@@ -64,6 +64,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvCreatedAt = (TextView) itemView.findViewById(R.id.tvTimestamp);
         }
 
+    }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        mTweets.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Tweet> list) {
+        mTweets.addAll(list);
+        notifyDataSetChanged();
     }
 
 }

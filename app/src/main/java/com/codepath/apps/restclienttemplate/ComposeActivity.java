@@ -31,6 +31,8 @@ public class ComposeActivity extends AppCompatActivity {
     }
     public void onTweet(View v) {
 
+        //pb.setVisibility(ProgressBar.VISIBLE);
+
         //obtain a reference to the EditText created with the layout
         EditText etNewItem = (EditText) findViewById(R.id.etCompose);
         //grab the EditText's content as a string
@@ -41,14 +43,20 @@ public class ComposeActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Tweet tweet = null;
                 try {
+                    //Intent data = new Intent();
+                    //data.putExtra("tweet'", Parcels.wrap(tweet));
+                    //setResult(RESULT_OK, data);
+                    //pb.setVisibility(ProgressBar.INVISIBLE);
+                    //finish();
                     tweet = Tweet.fromJSON(response);
+                    Intent data = new Intent(context, TimelineActivity.class);
+                    data.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                    context.startActivity(data);
+                    Toast.makeText(getApplicationContext(), "Tweet tweeted", Toast.LENGTH_SHORT).show();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Intent data = new Intent(context, TimelineActivity.class);
-                data.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
-                context.startActivity(data);
-                Toast.makeText(getApplicationContext(), "Tweet tweeted", Toast.LENGTH_SHORT).show();
             }
         });
         //add the item to the list via the adapter

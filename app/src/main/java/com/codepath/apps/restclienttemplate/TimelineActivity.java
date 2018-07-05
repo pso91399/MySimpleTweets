@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -45,7 +46,17 @@ public class TimelineActivity extends AppCompatActivity {
 
         rvTweets = (RecyclerView) findViewById(R.id.rvTweet);
         tweets = new ArrayList<>();
-        tweetAdapter = new TweetAdapter(tweets);
+        tweetAdapter = new TweetAdapter(tweets, new ClickListener() {
+            @Override
+            public void onPositionClicked(int position) {
+                launchReplyView();
+            }
+
+            @Override
+            public void onLongClicked(int position) {
+
+            }
+        });
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(tweetAdapter);
 
@@ -114,6 +125,13 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void launchComposeView() {
         Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i, REQUEST_CODE);
+    }
+
+    public void launchReplyView() {
+        Intent i = new Intent(this, ReplyActivity.class);
+        Toast.makeText(this, "ReplyView launched", Toast.LENGTH_SHORT).show();
+        //i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(t));
         startActivityForResult(i, REQUEST_CODE);
     }
 

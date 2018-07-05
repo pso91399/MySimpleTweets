@@ -20,7 +20,7 @@ import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
-public class ComposeActivity extends AppCompatActivity {
+public class ReplyActivity extends AppCompatActivity {
 
     TwitterClient client;
     Context context;
@@ -30,11 +30,9 @@ public class ComposeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compose);
-        client = new TwitterClient(this);
-        context = this;
-        etNewItem = (EditText) findViewById(R.id.etCompose);
-        tvCharsLeft = (TextView) findViewById(R.id.tvCharsLeft);
+        setContentView(R.layout.activity_reply);
+        etNewItem = (EditText) findViewById(R.id.etComposeReply);
+        tvCharsLeft = (TextView) findViewById(R.id.tvCharsLeftReply);
         etNewItem.addTextChangedListener(mTextEditorWatcher);
     }
 
@@ -51,12 +49,12 @@ public class ComposeActivity extends AppCompatActivity {
         }
     };
 
-    public void onTweet(View v) {
+    public void onReply(View v) {
 
         //pb.setVisibility(ProgressBar.VISIBLE);
 
         //obtain a reference to the EditText created with the layout
-        EditText etNewItem = (EditText) findViewById(R.id.etCompose);
+        EditText etNewItem = (EditText) findViewById(R.id.etComposeReply);
         //grab the EditText's content as a string
         String itemText = etNewItem.getText().toString();
 
@@ -74,19 +72,12 @@ public class ComposeActivity extends AppCompatActivity {
                     Intent data = new Intent(context, TimelineActivity.class);
                     data.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                     context.startActivity(data);
-                    Toast.makeText(getApplicationContext(), "Tweet tweeted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Reply tweeted", Toast.LENGTH_SHORT).show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-        //add the item to the list via the adapter
-        //itemsAdapter.add(itemText);
-        //store the updated list
-        //writeItems();
-        //clear the EditText by setting it to an empty string
-        //etNewItem.setText("");
     }
-
 }

@@ -1,6 +1,5 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +22,10 @@ import cz.msebera.android.httpclient.Header;
 public class ReplyActivity extends AppCompatActivity {
 
     TwitterClient client;
-    Context context;
+    //Context context;
     EditText etNewItem;
     TextView tvCharsLeft;
+    Tweet tweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,12 @@ public class ReplyActivity extends AppCompatActivity {
         etNewItem = (EditText) findViewById(R.id.etComposeReply);
         tvCharsLeft = (TextView) findViewById(R.id.tvCharsLeftReply);
         etNewItem.addTextChangedListener(mTextEditorWatcher);
+
+        client = TwitterApp.getRestClient(this);
+        tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
+        EditText etNewItem = (EditText) findViewById(R.id.etComposeReply);
+        etNewItem.setText("@" + tweet.getUser().screenName);
+
     }
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
@@ -54,7 +60,6 @@ public class ReplyActivity extends AppCompatActivity {
         //pb.setVisibility(ProgressBar.VISIBLE);
 
         //obtain a reference to the EditText created with the layout
-        EditText etNewItem = (EditText) findViewById(R.id.etComposeReply);
         //grab the EditText's content as a string
         String itemText = etNewItem.getText().toString();
 
@@ -69,9 +74,9 @@ public class ReplyActivity extends AppCompatActivity {
                     //pb.setVisibility(ProgressBar.INVISIBLE);
                     //finish();
                     tweet = Tweet.fromJSON(response);
-                    Intent data = new Intent(context, TimelineActivity.class);
+                    Intent data = new Intent(ReplyActivity.this, TimelineActivity.class);
                     data.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
-                    context.startActivity(data);
+                    startActivity(data);
                     Toast.makeText(getApplicationContext(), "Reply tweeted", Toast.LENGTH_SHORT).show();
 
                 } catch (JSONException e) {

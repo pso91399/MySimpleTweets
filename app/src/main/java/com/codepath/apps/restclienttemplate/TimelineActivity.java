@@ -49,7 +49,9 @@ public class TimelineActivity extends AppCompatActivity {
         tweetAdapter = new TweetAdapter(tweets, new ClickListener() {
             @Override
             public void onPositionClicked(int position) {
-                launchReplyView();
+                Tweet tweet = tweets.get(position);
+
+                launchReplyView(tweet);
             }
 
             @Override
@@ -128,10 +130,10 @@ public class TimelineActivity extends AppCompatActivity {
         startActivityForResult(i, REQUEST_CODE);
     }
 
-    public void launchReplyView() {
+    public void launchReplyView(Tweet tweet) {
         Intent i = new Intent(this, ReplyActivity.class);
         Toast.makeText(this, "ReplyView launched", Toast.LENGTH_SHORT).show();
-        //i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(t));
+        i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
         startActivityForResult(i, REQUEST_CODE);
     }
 

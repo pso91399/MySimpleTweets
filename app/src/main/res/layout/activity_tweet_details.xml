@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TweetDetailsActivity">
+
+    <ImageView
+        android:id="@+id/ivDetailProfileImage"
+        android:layout_width="67dp"
+        android:layout_height="64dp"
+        app:srcCompat="@android:color/black"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/tvDetailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="79dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvDetailScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDetailUser"
+        android:layout_toEndOf="@+id/ivAt"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvDetailBody"
+        android:layout_width="match_parent"
+        android:layout_height="447dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivDetailProfileImage"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/ivAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvDetailUser"
+        android:layout_below="@+id/tvDetailUser"
+        android:text="@" />
+
+    <Button
+        android:id="@+id/btnLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:onClick="onLike"
+        android:text="Like" />
+
+    <Button
+        android:id="@+id/btnRetweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/btnLike"
+        android:onClick="onRetweet"
+        android:text="Retweet" />
+</RelativeLayout>

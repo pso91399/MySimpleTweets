@@ -48,10 +48,14 @@ public class TimelineActivity extends AppCompatActivity {
         tweets = new ArrayList<>();
         tweetAdapter = new TweetAdapter(tweets, new ClickListener() {
             @Override
-            public void onPositionClicked(int position) {
+            public void onPositionClickedReply(int position) {
                 Tweet tweet = tweets.get(position);
-
                 launchReplyView(tweet);
+            }
+
+            public void onPositionClickedDetails(int position) {
+                Tweet tweet = tweets.get(position);
+                launchDetailView(tweet);
             }
 
             @Override
@@ -72,6 +76,7 @@ public class TimelineActivity extends AppCompatActivity {
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
                 fetchTimelineAsync(0);
+                swipeContainer.setRefreshing(false);
             }
         });
         // Configure the refreshing colors
@@ -95,6 +100,15 @@ public class TimelineActivity extends AppCompatActivity {
                 // Remember to CLEAR OUT old items before appending in the new ones
                 tweetAdapter.clear();
                 // ...the data has come back, add new items to your adapter...
+                for (int i = 0; i < json.length(); i++) {
+                    try {
+                        Tweet tweet = Tweet.fromJSON(json.getJSONObject(i));
+                        tweets.add(tweet);
+                        tweetAdapter.notifyItemInserted(tweets.size() - 1);
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
                 tweetAdapter.addAll(tweets);
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
@@ -133,6 +147,13 @@ public class TimelineActivity extends AppCompatActivity {
     public void launchReplyView(Tweet tweet) {
         Intent i = new Intent(this, ReplyActivity.class);
         Toast.makeText(this, "ReplyView launched", Toast.LENGTH_SHORT).show();
+        i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+        startActivityForResult(i, REQUEST_CODE);
+    }
+
+    public void launchDetailView(Tweet tweet) {
+        Intent i = new Intent(this, TweetDetailsActivity.class);
+        Toast.makeText(this, "DetailsView launched", Toast.LENGTH_SHORT).show();
         i.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
         startActivityForResult(i, REQUEST_CODE);
     }

@@ -75,7 +75,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
             btnReply = itemView.findViewById(R.id.btReply);
 
+            itemView.setOnClickListener(this);
             btnReply.setOnClickListener(this);
+
         }
         // onClick Listener for view
         @Override
@@ -83,11 +85,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
             if (v.getId() == btnReply.getId()) {
                 Toast.makeText(v.getContext(), "ITEM PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                listenerRef.get().onPositionClickedReply(getAdapterPosition());
             } else {
                 Toast.makeText(v.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                listenerRef.get().onPositionClickedDetails(getAdapterPosition());
             }
 
-            listenerRef.get().onPositionClicked(getAdapterPosition());
+
         }
     }
 
